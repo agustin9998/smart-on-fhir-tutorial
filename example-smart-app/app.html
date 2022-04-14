@@ -29,8 +29,8 @@
       console.log(myApp.smart);
       let loincs = [ encodeURIComponent("http://loinc.org|4548-4") ] //4548-4 = HgA1C  //4544-3 = hematocrit
       console.log(loincs);
-      let url = myApp.smart.state.serverUrl+"/Observation?patient="+myApp.smart.patient.id+"&limit=50&code="+loincs.join(",");
-      console.log(url + "url");
+      let url = myApp.smart.state.serverUrl+"/Observation?patient="+myApp.smart.patient.id+"&code="+loincs.join(",");
+      console.log(url);
       let obs = await fetch(url,{
         headers:{  
           "Accept":"application/json+fhir",
