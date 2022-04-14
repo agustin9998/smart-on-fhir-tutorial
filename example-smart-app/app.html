@@ -17,7 +17,7 @@
 
 	<script>
 
-		var myApp = {}
+		let myApp = {}
 
     FHIR.oauth2.ready()
     .then(function(client){ 
@@ -27,9 +27,11 @@
 
     async function doRequests(){
       console.log(myApp.smart);
-      var loincs = [ encodeURIComponent("http://loinc.org|4548-4") ] //4548-4 = HgA1C  //4544-3 = hematocrit
+      let loincs = [ encodeURIComponent("http://loinc.org|4548-4") ] //4548-4 = HgA1C  //4544-3 = hematocrit
       console.log(loincs);
-      var obs = await fetch(myApp.smart.state.serverUrl+"/Observation?patient="+myApp.smart.patient.id+"&limit=50&code="+loincs.join(","),{
+      let url = myApp.smart.state.serverUrl+"/Observation?patient="+myApp.smart.patient.id+"&limit=50&code="+loincs.join(",");
+      console.log(url + "url");
+      let obs = await fetch(url,{
         headers:{  
           "Accept":"application/json+fhir",
           "Authorization":"Bearer "+myApp.smart.state.tokenResponse.access_token
@@ -38,12 +40,12 @@
           return data
       })
 
-      var response = await obs.json()
+      let response = await obs.json()
 
       console.log('response: '+JSON.stringify(response));
-      console.log('llego2');
+      console.log('llego3');
 
-      var toInsert = ""
+      let toInsert = ""
 
 //if there is no entry, then there was no test found
       if (!response.entry[0]){
