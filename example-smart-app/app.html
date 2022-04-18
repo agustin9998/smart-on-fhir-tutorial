@@ -373,7 +373,7 @@
       async function getDataFromPatient() {
         //get data from patient
         let userIdSections = currentUserFhirUrl.split("/");
-        let patient = patient;
+        let patient = {};
         
         $.when(
           fhirClient.patient.read({
