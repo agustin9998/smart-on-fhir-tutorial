@@ -375,7 +375,7 @@
         let userIdSections = currentUserFhirUrl.split("/");
         let patient = {};
         
-        $.when(
+        await $.when(
           fhirClient.patient.read({
             type: userIdSections[userIdSections.length - 2],
             id: userIdSections[userIdSections.length - 1],
@@ -401,7 +401,6 @@
         `;
           $("#info").html(html);
         });
-        console.log('termino');
         return patient;
       }
     </script>
