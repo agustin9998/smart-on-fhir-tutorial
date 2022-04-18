@@ -314,7 +314,6 @@
       let myApp = {};
       let currentUserFhirUrl;
       let fhirClient = {};
-      let patient = {};
       FHIR.oauth2.ready().then(function (client) {
         myApp.smart = client;
         currentUserFhirUrl = client.user.fhirUser;
@@ -358,17 +357,9 @@
       }
 */
 
-       patient = await getDataFromPatient();
-       console.log(patient);
-        //update patient surname
-        patient.name[0].family[0] = "NewName";
-        fhirClient.api
-          .update({
-            type: patient.resourceType,
-            data: JSON.stringify(patient),
-            id: patient.id,
-          })
-          .then(function () {});
+      getDataFromPatient();
+       
+       
       }
       async function getDataFromPatient() {
         //get data from patient
@@ -400,8 +391,23 @@
                       </div>
         `;
           $("#info").html(html);
+
+           //update patient surname
+           patient = userResult;
+        patient.name[0].family[0] = "NewName";
+        fhirClient.api
+          .update({
+            type: patient.resourceType,
+            data: JSON.stringify(patient),
+            id: patient.id,
+          })
+          .then(function () {
+            console.log('family name changed');
+            alert('family name changed');
+          });
+
+
         });
-        return patient;
       }
     </script>
   </body>
