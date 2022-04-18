@@ -395,6 +395,7 @@
            //update patient surname
            patient = userResult;
         patient.name[0].family[0] = "NewName";
+        console.log(patient);
         fhirClient.api
           .update({
             type: patient.resourceType,
