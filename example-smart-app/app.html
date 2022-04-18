@@ -193,16 +193,18 @@
 	<script>
 
 		let myApp = {}
+    let currentUserFhirUrl;
 
     FHIR.oauth2.ready()
     .then(function(client){ 
-      myApp.smart = client
-      doRequests()
+      myApp.smart = client;
+      currentUserFhirUrl = client.userId;
+      doRequests();
     })
 
     async function doRequests(){
       console.log(myApp.smart);
-      let loincs = [ encodeURIComponent("http://loinc.org|4548-4") ] //4548-4 = HgA1C  //4544-3 = hematocrit
+      /*let loincs = [ encodeURIComponent("http://loinc.org|4548-4") ] //4548-4 = HgA1C  //4544-3 = hematocrit
       console.log(loincs);
       let url = myApp.smart.state.serverUrl+"/Observation?patient="+myApp.smart.patient.id+"&code="+loincs.join(",");
       console.log(url + "url");
@@ -222,7 +224,6 @@
 
       let toInsert = ""
 
-//if there is no entry, then there was no test found
       if (!response.entry || !response.entry[0]){
 
         toInsert += "We could not find you were tested for HgA1C at this provider."
@@ -235,10 +236,22 @@
 
         toInsert += "<a href='https://en.wikipedia.org/wiki/Glycated_hemoglobin'>According to wikipedia</a>, A1c is measured primarily to determine the three-month average blood sugar level and can be used as a diagnostic test for diabetes mellitus.  <5.7%	Normal, 5.7-6.4%	Prediabetes, >6.5%	Diabetes."
       }
+*/
 
-      $("#info").html(toInsert)
+  let userIdSections = currentUserFhirUrl.split("/");
+  
+  $.when(fhirClient.api.read({type: userIdSections[userIdSections.length-2], id: userIdSections[userIdSections.length-1]}))
+      .done(function(userResult){
+          var user = {name:""};
+          if (userResult.data.resourceType === "Patient") {
+              var patientName = userResult.data && userResult.data.name && userResult.data.name[0];
+              user.name = patientName.given.join(" ") + " " + patientName.family.join(" ").trim();
+          }
+          user.id  = userResult.data.id;
+      });
+        $("#info").html(toInsert)
 
-    }
+      }
 	</script>
 
 </body>
