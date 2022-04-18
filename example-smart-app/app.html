@@ -215,7 +215,7 @@
 */
 let userIdSections = currentUserFhirUrl.split("/");
   
-  $.when(fhirClient.api.read({type: userIdSections[userIdSections.length-2], id: userIdSections[userIdSections.length-1]}))
+  $.when(fhirClient.patient.read({type: userIdSections[userIdSections.length-2], id: userIdSections[userIdSections.length-1]}))
       .done(function(userResult){
           var user = {name:""};
           if (userResult.data.resourceType === "Patient") {
