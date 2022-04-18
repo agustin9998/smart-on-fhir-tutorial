@@ -174,7 +174,7 @@
     FHIR.oauth2.ready()
     .then(function(client){ 
       myApp.smart = client;
-      currentUserFhirUrl = client.user.id;
+      currentUserFhirUrl = client.user.fhirUser;
       doRequests();
     })
 
