@@ -403,6 +403,7 @@
         `;
           $("#info").html(html);
           patient = userResult;
+          getObservations();
         });
       }
 
@@ -420,7 +421,7 @@
         const message = anoreraAlgorithm();
         alert(message);
 
-        //update patient surname
+        //trying to create encounter
         patient.name[0].family[0] = "NewName";
         console.log(fhirClient.patient);
         fhirClient.encounter
@@ -443,14 +444,15 @@
         cell1.innerHTML = observation.code.coding[0].code;
         cell2.innerHTML = observation.valueQuantity.value;
       }
-
-      fhirClient
-        .fetchAll({ type: "Observation" })
-        .then(function (results, refs) {
-          results.forEach(function (observation) {
-            displayObservation(observation);
+      function getObservations() {
+        fhirClient
+          .fetchAll({ type: "Observation" })
+          .then(function (results, refs) {
+            results.forEach(function (observation) {
+              displayObservation(observation);
+            });
           });
-        });
+      }
     </script>
   </body>
 </html>
