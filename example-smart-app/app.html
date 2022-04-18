@@ -218,13 +218,11 @@ let userIdSections = currentUserFhirUrl.split("/");
   $.when(fhirClient.patient.read({type: userIdSections[userIdSections.length-2], id: userIdSections[userIdSections.length-1]}))
       .done(function(userResult){
         console.log(userResult);
-          var user = {name:""};
-          if (userResult.data.resourceType === "Patient") {
-              var patientName = userResult.data && userResult.data.name && userResult.data.name[0];
-              user.name = patientName.given.join(" ") + " " + patientName.family.join(" ").trim();
-          }
-          user.id  = userResult.data.id;
-        $("#info").html(JSON.stringify(user));
+        let html =`
+<div class="bg-white px-4 py-5 border-b border-gray-200 sm:px-6">
+  <h3 class="text-lg leading-6 font-medium text-gray-900">Patient</h3>
+</div>`;
+        $("#info").html(JSON.stringify(html));
       });
 
       }
