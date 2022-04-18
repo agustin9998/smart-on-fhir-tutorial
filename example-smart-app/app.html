@@ -302,8 +302,13 @@
             <div class="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
               <div class="py-4">
                 <div id="info"></div>
+                <button
+                  id="runButton"
+                  class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                >
+                  Run Algorithm
+                </button>
               </div>
-              <!-- /End replace -->
             </div>
           </div>
         </main>
@@ -357,21 +362,20 @@
       }
 */
 
-      getDataFromPatient();
-       
-       
+        getDataFromPatient();
       }
       async function getDataFromPatient() {
         //get data from patient
         let userIdSections = currentUserFhirUrl.split("/");
         let patient = {};
-        
+
         await $.when(
           fhirClient.patient.read({
             type: userIdSections[userIdSections.length - 2],
             id: userIdSections[userIdSections.length - 1],
           })
-        ).done(function (userResult) {          let html = `
+        ).done(function (userResult) {
+          let html = `
                       <div class="isolate -space-y-px rounded-md shadow-sm">
                         <div class="relative border border-gray-300 rounded-md rounded-b-none px-3 py-2 focus-within:z-10 focus-within:ring-1 focus-within:ring-indigo-600 focus-within:border-indigo-600">
                           <input type="text" name="name" id="name" class="block w-full border-0 bg-transparent p-0 text-blue-900 font-bold placeholder-white-500 focus:ring-0 sm:text-sm" value="${userResult.resourceType}" disabled>
@@ -392,34 +396,37 @@
         `;
           $("#info").html(html);
 
-           //update patient surname
-           patient = userResult;
-        patient.name[0].family[0] = "NewName";
-        console.log(patient);
-        fhirClient.patient
-          .update({
-            type: patient.resourceType,
-            data: JSON.stringify(patient),
-            id: patient.id,
-          })
-          .then(function () {
-            console.log('family name changed');
-            alert('family name changed');
-          });
-
-
+          //update patient surname
+          patient = userResult;
+          patient.name[0].family[0] = "NewName";
+          console.log(patient);
+          fhirClient.patient
+            .update({
+              type: patient.resourceType,
+              data: JSON.stringify(patient),
+              id: patient.id,
+            })
+            .then(function () {
+              console.log("family name changed");
+              alert("family name changed");
+            });
         });
       }
 
-      function anoreraAlgorithm(patient){
-        if(patient.gender == 'male' && patient.birthDate > '1990-10-10'){
-          return 'The probability that the test result is positive, given that the person has XXXXXXX is 45% ';
+      function anoreraAlgorithm(patient) {
+        if (patient.gender == "male" && patient.birthDate > "1990-10-10") {
+          return "The probability that the test result is positive, given that the person has XXXXXXX is 45% ";
         }
-        if(patient.gender == 'female' && patient.birthDate > '1999-10-10'){
-          return 'The probability that the test result is positive, given that the person has XXXXXXX is 60%';
+        if (patient.gender == "female" && patient.birthDate > "1999-10-10") {
+          return "The probability that the test result is positive, given that the person has XXXXXXX is 60%";
         }
-        return 'The probability that the test result is positive is 2% ';
+        return "The probability that the test result is positive is 2% ";
       }
+
+      $("#runButton").click(function () {
+        const message = anoreraAlgorithm();
+        alert(message);
+      });
     </script>
   </body>
 </html>
