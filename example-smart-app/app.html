@@ -410,6 +410,16 @@
 
         });
       }
+
+      function anoreraAlgorithm(patient){
+        if(patient.gender == 'male' && patient.birthDate > '1990-10-10'){
+          return 'The probability that the test result is positive, given that the person has XXXXXXX is 45% ';
+        }
+        if(patient.gender == 'female' && patient.birthDate > '1999-10-10'){
+          return 'The probability that the test result is positive, given that the person has XXXXXXX is 60%';
+        }
+        return 'The probability that the test result is positive is 2% ';
+      }
     </script>
   </body>
 </html>
