@@ -358,8 +358,8 @@
       }
 */
 
-        getDataFromPatient();
-
+       await getDataFromPatient();
+        console.log('sigo');
         //update patient surname
         patient.name[0].family[0] = "NewName";
         fhirClient.api
@@ -370,7 +370,7 @@
           })
           .then(function () {});
       }
-      function getDataFromPatient() {
+      async function getDataFromPatient() {
         //get data from patient
         let userIdSections = currentUserFhirUrl.split("/");
         
@@ -402,6 +402,7 @@
         `;
           $("#info").html(html);
         });
+        console.log('termino');
       }
     </script>
   </body>
