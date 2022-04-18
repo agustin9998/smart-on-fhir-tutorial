@@ -172,13 +172,13 @@
     let currentUserFhirUrl;
 
     FHIR.oauth2.ready()
-    .then(function(client){ 
-      myApp.smart = client;
-      currentUserFhirUrl = client.user.fhirUser;
-      doRequests();
+    .then(function(fhirClient){ 
+      myApp.smart = fhirClient;
+      currentUserFhirUrl = fhirClient.user.fhirUser;
+      //doRequests();
     })
 
-    async function doRequests(){
+    async function doRequests(client){
       console.log(myApp.smart);
       /*let loincs = [ encodeURIComponent("http://loinc.org|4548-4") ] //4548-4 = HgA1C  //4544-3 = hematocrit
       console.log(loincs);
@@ -214,9 +214,10 @@
       }
 */
 
-  let userIdSections = currentUserFhirUrl.split("/");
+      }
+      let userIdSections = currentUserFhirUrl.split("/");
   
-  $.when(myApp.smart.api.read({type: userIdSections[userIdSections.length-2], id: userIdSections[userIdSections.length-1]}))
+  $.when(fhirClient.api.read({type: userIdSections[userIdSections.length-2], id: userIdSections[userIdSections.length-1]}))
       .done(function(userResult){
           var user = {name:""};
           if (userResult.data.resourceType === "Patient") {
@@ -225,9 +226,7 @@
           }
           user.id  = userResult.data.id;
       });
-        $("#info").html(toInsert)
-
-      }
+        $("#info").html(JSON.stringify(user));
 	</script>
 
 </body>
