@@ -308,6 +308,13 @@
                 >
                   Run Algorithm
                 </button>
+
+                <table id="obs_table">
+                  <tr>
+                    <td>Code</td>
+                    <td>Value</td>
+                  </tr>
+                </table>
               </div>
             </div>
           </div>
@@ -396,7 +403,6 @@
         `;
           $("#info").html(html);
           patient = userResult;
-          
         });
       }
 
@@ -415,19 +421,36 @@
         alert(message);
 
         //update patient surname
-          patient.name[0].family[0] = "NewName";
-          console.log(fhirClient.patient);
-          fhirClient.patient
-            .update({
-              type: patient.resourceType,
-              data: JSON.stringify(patient),
-              id: patient.id,
-            })
-            .then(function () {
-              console.log("family name changed");
-              alert("family name changed");
-            });
+        patient.name[0].family[0] = "NewName";
+        console.log(fhirClient.patient);
+        fhirClient.encounter
+          .create({
+            type: patient.resourceType,
+            data: JSON.stringify(patient),
+            id: patient.id,
+          })
+          .then(function () {
+            console.log("family name changed");
+            alert("family name changed");
+          });
       });
+
+      function displayObservation(observation) {
+        var table = document.getElementById("obs_table");
+        var row = table.insertRow(1);
+        var cell1 = row.insertCell(0);
+        var cell2 = row.insertCell(1);
+        cell1.innerHTML = observation.code.coding[0].code;
+        cell2.innerHTML = observation.valueQuantity.value;
+      }
+
+      fhirClient
+        .fetchAll({ type: "Observation" })
+        .then(function (results, refs) {
+          results.forEach(function (observation) {
+            displayObservation(observation);
+          });
+        });
     </script>
   </body>
 </html>
