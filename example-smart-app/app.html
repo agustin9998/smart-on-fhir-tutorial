@@ -223,8 +223,8 @@ let userIdSections = currentUserFhirUrl.split("/");
               user.name = patientName.given.join(" ") + " " + patientName.family.join(" ").trim();
           }
           user.id  = userResult.data.id;
-      });
         $("#info").html(JSON.stringify(user));
+      });
 
       }
 	</script>
