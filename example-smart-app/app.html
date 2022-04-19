@@ -327,19 +327,15 @@
       let myApp = {};
       let currentUserFhirUrl;
       let fhirClient = {};
-      FHIR.oauth2.ready(function(smart){
-myApp.smart = smart;
-console.log(myApp.smart);
-      });/*.then(function (client) {
-        
+      FHIR.oauth2.ready().then(function (client) {
+        myApp.smart = client;
         currentUserFhirUrl = client.user.fhirUser;
         fhirClient = client;
         doRequests();
-      });*/
+      });
 
       async function doRequests() {
         console.log(myApp.smart);
-        console.log(fhirClient);
         /*let loincs = [ encodeURIComponent("http://loinc.org|4548-4") ] //4548-4 = HgA1C  //4544-3 = hematocrit
       console.log(loincs);
       let url = myApp.smart.state.serverUrl+"/Observation?patient="+myApp.smart.patient.id+"&code="+loincs.join(",");
@@ -430,7 +426,7 @@ console.log(myApp.smart);
         patient.name[0].family[0] = "NewName";
         console.log(fhirClient.patient);
         console.log(fhirClient);
-        fhirClient.fetchAll({resourceType: "Observation"}).then(function(results, refs){
+        fhirClient.read({resourceType: "Observation"}).then(function(results, refs){
           console.log(results);
   });
         /*fhirClient.encounter
