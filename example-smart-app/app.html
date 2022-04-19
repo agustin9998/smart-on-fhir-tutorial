@@ -381,7 +381,7 @@
         let userIdSections = currentUserFhirUrl.split("/");
         console.log('estoy viendo al paciente');
         await $.when(
-          fhirClient.patient.read({
+          fhirClient.api.read({
             type: userIdSections[userIdSections.length - 2],
             id: userIdSections[userIdSections.length - 1],
           })
