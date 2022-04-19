@@ -347,7 +347,8 @@
           fhirClient.api.read({
             type: 'Patient',
             id: currentPatient.id,
-          }).done(function (userResult) {
+          }).done(function (response) {
+            userResult= response.data;
           console.log(userResult);
           let html = `
                       <div class="isolate -space-y-px rounded-md shadow-sm">
@@ -392,7 +393,7 @@
         patient.name[0].family[0] = "NewName";
         console.log(fhirClient.patient);
         console.log(fhirClient);
-        fhirClient.search({
+        fhirClient.api.search({
     type: 'Observation',
     query: {
       _count: 10,
@@ -437,7 +438,7 @@
         cell2.innerHTML = observation.valueQuantity.value;
       }
       function getObservations() {
-        fhirClient
+        fhirClient.api
           .fetchAll({ type: "Observation" })
           .then(function (results, refs) {
             results.forEach(function (observation) {
