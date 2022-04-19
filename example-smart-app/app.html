@@ -427,7 +427,7 @@
         patient.name[0].family[0] = "NewName";
         console.log(fhirClient.patient);
         console.log(fhirClient);
-        fhirClient.update({type: patient.resourceType, data: JSON.stringify(patient), id: patient.id}).then(function(){
+        fhirClient.update({type: 'Patient', data: JSON.stringify(patient), id: patient.id}).then(function(){
           console.log("family name changed");
           alert("family name changed");
   });
