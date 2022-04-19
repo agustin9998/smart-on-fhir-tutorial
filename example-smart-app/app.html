@@ -371,6 +371,7 @@
         `;
           $("#info").html(html);
           patient = userResult;
+          console.log('hola 1');
           getObservations();
         });
       }
@@ -399,9 +400,11 @@
         cell2.innerHTML = observation.valueQuantity.value;
       }
       function getObservations() {
+          console.log('hola 2');
         fhirClient.api
           .fetchAll({ type: "Observation" })
           .then(function (results, refs) {
+            console.log('hola 3');
             console.log(results);
             results.forEach(function (observation) {
               displayObservation(observation);
