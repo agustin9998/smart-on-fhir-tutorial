@@ -425,9 +425,9 @@
         //trying to create encounter
         patient.name[0].family[0] = "NewName";
         console.log(fhirClient.patient);
-        fhirClient.create({type: patient.encounter, data: JSON.stringify(patient), id: patient.id}).then(function(){
+        fhirClient.create({type: patient.patient, data: JSON.stringify(patient), id: patient.id}).then(function(){
           console.log("family name changed");
-            alert("family name changed");
+          alert("family name changed");
   });
         /*fhirClient.encounter
           .create({
