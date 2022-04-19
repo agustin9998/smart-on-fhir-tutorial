@@ -388,45 +388,6 @@
       $("#runButton").click(function () {
         const message = anoreraAlgorithm();
         alert(message);
-
-        //trying to create encounter
-        patient.name[0].family[0] = "NewName";
-        console.log(fhirClient.patient);
-        console.log(fhirClient);
-        fhirClient.api.search({
-    type: 'Observation',
-    query: {
-      _count: 10,
-      _page: 1,
-      $include: {
-        RelatedPerson: "patient"
-      }
-    }
-  })
-    .then((res) => {
-      console.log(res.data);
-    })
-    .catch((err) => {
-      
-      if (err.status) {
-        console.log(err);
-        console.log('Error', err.status);
-      }
-      // Errors
-      if (err.data && err.data) {
-        console.log('Error', err.data);
-      }
-    });
-        /*fhirClient.encounter
-          .create({
-            type: patient.resourceType,
-            data: JSON.stringify(patient),
-            id: patient.id,
-          })
-          .then(function () {
-            console.log("family name changed");
-            alert("family name changed");
-          });*/
       });
 
       function displayObservation(observation) {
@@ -441,6 +402,7 @@
         fhirClient.api
           .fetchAll({ type: "Observation" })
           .then(function (results, refs) {
+            console.log(results);
             results.forEach(function (observation) {
               displayObservation(observation);
             });
