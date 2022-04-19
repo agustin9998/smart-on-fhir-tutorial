@@ -427,9 +427,8 @@
         patient.name[0].family[0] = "NewName";
         console.log(fhirClient.patient);
         console.log(fhirClient);
-        fhirClient.update({resourceType: patient.resourceType, data:JSON.stringify(patient), id: patient.id}).then(function(){
-          console.log("family name changed");
-          alert("family name changed");
+        fhirClient.fetchAll({resourceType: "Observation"}).then(function(results, refs){
+          console.log(results);
   });
         /*fhirClient.encounter
           .create({
