@@ -313,12 +313,8 @@
                   Run Algorithm
                 </button>
 
-                <table id="obs_table">
-                  <tr>
-                    <td>Code</td>
-                    <td>Value</td>
-                  </tr>
-                </table>
+                <div id="obs_table">
+                </div>
               </div>
             </div>
           </div>
@@ -393,11 +389,7 @@
 
       function displayObservation(observation) {
         var table = document.getElementById("obs_table");
-        var row = table.insertRow(1);
-        var cell1 = row.insertCell(0);
-        var cell2 = row.insertCell(1);
-        cell1.innerHTML = observation.code.coding[0].code;
-        cell2.innerHTML = observation.valueQuantity.value;
+        table.append(observation.text.div);
       }
       function getObservations() {
           console.log('hola 2');
