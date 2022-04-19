@@ -328,12 +328,13 @@
       let currentUserFhirUrl;
       let fhirClient = {};
       FHIR.oauth2.ready(function(smart){
-        myApp.smart = client;
-      }).then(function (client) {
+myApp.smart = smart;
+      });/*.then(function (client) {
+        
         currentUserFhirUrl = client.user.fhirUser;
         fhirClient = client;
         doRequests();
-      });
+      });*/
 
       async function doRequests() {
         console.log(myApp.smart);
