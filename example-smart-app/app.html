@@ -390,14 +390,10 @@
             code: "[lb_av]",
           },
         };
-        fhirClient.api
-          .create({
-            type: "Observation",
-            data: data,
-          })
-          .then(function () {
-            console.log("Observation created succesfully");
-          });
+        fhirClient.api.create({
+          type: "Observation",
+          data: data,
+        });
       }
       async function createEncounter() {
         console.log("Creating encounter...");
@@ -426,6 +422,13 @@
           status: "planned",
           patient: {
             reference: `Patient/${patient.id}`,
+          },
+          subject: {
+            reference: `Patient/${patient.id}`,
+          },
+          text: {
+            status: "generated",
+            div: '<div xmlns="http://www.w3.org/1999/xhtml">Encounter with patient @example who is at home</div>',
           },
         };
 
