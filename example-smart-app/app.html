@@ -389,7 +389,7 @@
 
       function displayObservation(observation) {
         var table = document.getElementById("obs_table");
-        table.append(JSON.stringify(observation.text.div));
+        table.innerHTML += observation.text.div;
       }
       function getObservations() {
         fhirClient.api
