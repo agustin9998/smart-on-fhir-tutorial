@@ -390,140 +390,107 @@
             code: "[lb_av]",
           },
         };
-        fhirClient.api
-          .create({
-            type: "Observation",
-            data: data,
-          });
+        fhirClient.api.create({
+          type: "Observation",
+          data: data,
+        });
       }
       async function createEncounter() {
         console.log("Creating encounter...");
         data = {
           resourceType: "Encounter",
+          identifier: [
+            {
+              use: "official",
+              system: "http://www.amc.nl/zorgportal/identifiers/visits",
+              value: "v1451",
+            },
+          ],
+          status: "in-progress",
+          statusHistory: [
+            {
+              status: "in-progress",
+              period: {
+                start: "2013-03-08",
+              },
+            },
+          ],
           class: {
             system: "http://terminology.hl7.org/CodeSystem/v3-ActCode",
             code: "IMP",
             display: "inpatient encounter",
-          },
-          actualPeriod: {
-            start: "2013-03-11",
-            end: "2013-03-20",
           },
           type: [
             {
               coding: [
                 {
                   system: "http://snomed.info/sct",
-                  code: "11429006",
-                  display: "Consultation",
+                  code: "183807002",
+                  display: "Inpatient stay for nine days",
                 },
               ],
             },
           ],
-          status: "planned",
-          patient: {
-            reference: `Patient/${patient.id}`,
+          priority: {
+            coding: [
+              {
+                system: "http://snomed.info/sct",
+                code: "394849002",
+                display: "High priority",
+              },
+            ],
           },
           subject: {
             reference: `Patient/${patient.id}`,
           },
-          
-        };
-
-        /*{
-                resourceType: "Encounter",
-                identifier: [
-                  {
-                    use: "official",
-                    system: "http://www.amc.nl/zorgportal/identifiers/visits",
-                    value: "v1451",
-                  },
-                ],
-                status: "in-progress",
-                statusHistory: [
-                  {
-                    status: "in-progress",
-                    period: {
-                      start: "2013-03-08",
-                    },
-                  },
-                ],
-                class: {
-                  system: "http://terminology.hl7.org/CodeSystem/v3-ActCode",
-                  code: "IMP",
-                  display: "inpatient encounter",
-                },
-                type: [
-                  {
-                    coding: [
-                      {
-                        system: "http://snomed.info/sct",
-                        code: "183807002",
-                        display: "Inpatient stay for nine days",
-                      },
-                    ],
-                  },
-                ],
-                priority: {
+          participant: [
+            {
+              type: [
+                {
                   coding: [
                     {
-                      system: "http://snomed.info/sct",
-                      code: "394849002",
-                      display: "High priority",
+                      system:
+                        "http://terminology.hl7.org/CodeSystem/v3-ParticipationType",
+                      code: "PART",
                     },
                   ],
                 },
-                subject: {
-                  reference: `Patient/${patient.id}`,
-                },
-                participant: [
+              ],
+              actor: {
+                reference: `Practitioner/12742069`,
+              },
+            },
+          ],
+          actualPeriod: {
+            start: "2013-03-11",
+            end: "2013-03-20",
+          },
+          reason: [
+            {
+              concept: {
+                text: "The patient seems to suffer from bilateral pneumonia and renal insufficiency, most likely due to chemotherapy.",
+              },
+            },
+          ],
+          diagnosis: [
+            {
+              condition: {
+                reference: "Condition/stroke",
+              },
+              use: {
+                coding: [
                   {
-                    type: [
-                      {
-                        coding: [
-                          {
-                            system:
-                              "http://terminology.hl7.org/CodeSystem/v3-ParticipationType",
-                            code: "PART",
-                          },
-                        ],
-                      },
-                    ],
-                    actor: {
-                      reference: `Practitioner/12742069`,
-                    },
+                    system:
+                      "http://terminology.hl7.org/CodeSystem/diagnosis-role",
+                    code: "AD",
+                    display: "Admission diagnosis",
                   },
                 ],
-                actualPeriod: {
-                  start: "2013-03-11",
-                  end: "2013-03-20",
-                },
-                reason: [
-                  {
-                    concept: {
-                      text: "The patient seems to suffer from bilateral pneumonia and renal insufficiency, most likely due to chemotherapy.",
-                    },
-                  },
-                ],
-                diagnosis: [
-                  {
-                    condition: {
-                      reference: "Condition/stroke",
-                    },
-                    use: {
-                      coding: [
-                        {
-                          system:
-                            "http://terminology.hl7.org/CodeSystem/diagnosis-role",
-                          code: "AD",
-                          display: "Admission diagnosis",
-                        },
-                      ],
-                    },
-                    rank: 1,
-                  },
-                ],
-              };*/
+              },
+              rank: 1,
+            },
+          ],
+        };
         fhirClient.api
           .create({
             type: "Encounter",
