@@ -490,9 +490,6 @@
           .search({
             type: "Observation",
             count: 5,
-            query: {
-              code: { $exact: "http://loinc.org" },
-            },
           })
           .then(function (results, refs) {
             console.log(results);
