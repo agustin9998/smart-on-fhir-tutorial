@@ -389,7 +389,7 @@
 
       function displayObservation(observation) {
         var table = document.getElementById("obs_table");
-        table.append(observation.text.div);
+        table.append(JSON.stringify(stringobservation.text.div));
       }
       function getObservations() {
           console.log('hola 2');
