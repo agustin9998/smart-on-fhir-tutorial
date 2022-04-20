@@ -357,7 +357,7 @@
           valueQuantity: { value: 80, unit: "bpm" },
         };
         fhirClient.api
-          .update({
+          .create({
             type: "Observation",
             data: data,
           })
