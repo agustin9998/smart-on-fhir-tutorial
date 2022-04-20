@@ -428,7 +428,11 @@
             reference: `Patient/${patient.id}`,
           },
           subject: {
-              reference: `Patient/${patient.id}`,
+            reference: `Patient/${patient.id}`,
+          },
+          text: {
+            status: "generated",
+            div: '<div xmlns="http://www.w3.org/1999/xhtml">Encounter with patient @example who is at home</div>',
           },
         };
 
