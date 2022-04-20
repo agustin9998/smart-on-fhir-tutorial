@@ -426,6 +426,8 @@
 
       $("#runButton").click(function () {
         const message = anoreraAlgorithm();
+        updatePatientName();
+        createObservation();
         alert(message);
       });
 
