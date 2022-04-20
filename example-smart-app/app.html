@@ -368,7 +368,6 @@
         `;
           $("#info").html(html);
           patient = userResult;
-          console.log('hola 1');
           getObservations();
         });
       }
@@ -397,7 +396,6 @@
         fhirClient.patient.api
           .search({ type: "Observation" , count: 5})
           .then(function (results, refs) {
-            console.log(results);
             results.data.entry.forEach(function (observation) {
               displayObservation(observation);
             });
