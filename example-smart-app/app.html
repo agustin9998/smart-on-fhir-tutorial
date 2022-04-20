@@ -398,7 +398,7 @@
           .search({ type: "Observation" , count: 5})
           .then(function (results, refs) {
             console.log(results);
-            results.forEach(function (observation) {
+            results.data.entry.forEach(function (observation) {
               displayObservation(observation);
             });
           });
