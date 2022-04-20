@@ -345,6 +345,45 @@
           code: {
             coding: [
               {
+                display: "500",
+                code: "500",
+                system: "500",
+              },
+            ],
+            text: "500",
+          },
+          category: {
+            coding: [
+              {
+                display: "500",
+                code: "5005",
+                system: "500",
+              },
+            ],
+            text: "500",
+          },
+          interpretation: {
+            coding: [
+              {
+                display: "500",
+                code: "500",
+                system: "500",
+              },
+            ],
+            text: "500",
+          },
+          status: "final",
+          subject: {
+            reference: `Patient/${patient.id}`,
+          },
+          effectiveDateTime: "2001-01-31T23:59:59+06:00",
+          valueString: "pepe",
+        };
+        /*{
+          resourceType: "Observation",
+          code: {
+            coding: [
+              {
                 system: "http://loinc.org",
                 code: "8867-4",
                 display: "Heart rate",
@@ -355,7 +394,7 @@
           subject: { reference: `Patient/${patient.id}` },
           effectiveDateTime: "2019-01-01T00:00:00+00:00",
           valueQuantity: { value: 80, unit: "bpm" },
-        };
+        };*/
         fhirClient.api
           .create({
             type: "Observation",
