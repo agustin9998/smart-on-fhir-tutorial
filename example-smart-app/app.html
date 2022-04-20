@@ -342,42 +342,53 @@
         console.log("Creating observation...");
         data = {
           resourceType: "Observation",
+          status: "final",
+          category: [
+            {
+              coding: [
+                {
+                  system:
+                    "http://terminology.hl7.org/CodeSystem/observation-category",
+                  code: "vital-signs",
+                  display: "Vital Signs",
+                },
+              ],
+            },
+          ],
           code: {
             coding: [
               {
-                display: "500",
-                code: "500",
-                system: "500",
+                system: "http://loinc.org",
+                code: "29463-7",
+                display: "Body Weight",
               },
-            ],
-            text: "500",
-          },
-          category: {
-            coding: [
               {
-                display: "500",
-                code: "5005",
-                system: "500",
+                system: "http://loinc.org",
+                code: "3141-9",
+                display: "Body weight Measured",
               },
-            ],
-            text: "500",
-          },
-          interpretation: {
-            coding: [
               {
-                display: "500",
-                code: "500",
-                system: "500",
+                system: "http://snomed.info/sct",
+                code: "27113001",
+                display: "Body weight",
+              },
+              {
+                system: "http://acme.org/devices/clinical-codes",
+                code: "body-weight",
+                display: "Body Weight",
               },
             ],
-            text: "500",
           },
-          status: "final",
           subject: {
             reference: `Patient/${patient.id}`,
           },
-          effectiveDateTime: "2001-01-31T23:59:59+06:00",
-          valueString: "pepe",
+          effectiveDateTime: "2016-03-28",
+          valueQuantity: {
+            value: 185,
+            unit: "lbs",
+            system: "http://unitsofmeasure.org",
+            code: "[lb_av]",
+          },
         };
         /*{
           resourceType: "Observation",
