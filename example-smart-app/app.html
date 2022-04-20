@@ -395,7 +395,7 @@
       }
       function getObservations() {
         fhirClient.patient.api
-          .fetchAll({ type: "Observation" })
+          .search({ type: "Observation" , count: 5})
           .then(function (results, refs) {
             console.log(results);
             results.forEach(function (observation) {
