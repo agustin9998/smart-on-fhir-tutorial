@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <script src='./lib/js/fhir-client-v0.1.12.js'></script>
+    <script src="./lib/js/fhir-client-v0.1.12.js"></script>
 
     <!-- Prevent session bleed caused by single threaded embedded browser and sessionStorage API -->
     <!-- https://github.com/cerner/fhir-client-cerner-additions -->
-    <script src='./lib/js/fhir-client-cerner-additions-1.0.0.js'></script>
+    <script src="./lib/js/fhir-client-cerner-additions-1.0.0.js"></script>
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
   </head>
@@ -314,8 +314,7 @@
                 </button>
 
                 <h1>Observations</h1>
-                <div id="obs_table">
-                </div>
+                <div id="obs_table"></div>
               </div>
             </div>
           </div>
@@ -328,9 +327,9 @@
       let myApp = {};
       let currentUserFhirUrl;
       let fhirClient = {};
-      FHIR.oauth2.ready(function(client){
+      FHIR.oauth2.ready(function (client) {
         myApp.smart = client;
-        currentPatient = client.patient;
+        patient = client.patient;
         fhirClient = client;
         doRequests();
       });
@@ -339,37 +338,80 @@
         console.log(myApp.smart);
         getDataFromPatient();
       }
+      async function createObservation() {
+        console.log("Creating observation...");
+        data = {
+          resourceType: "Observation",
+          code: {
+            coding: [
+              {
+                system: "http://loinc.org",
+                code: "8867-4",
+                display: "Heart rate",
+              },
+            ],
+          },
+          status: "final",
+          subject: { reference: "Patient/{}".format(patient_id) },
+          effectiveDateTime: "2019-01-01T00:00:00+00:00",
+          valueQuantity: { value: 80, unit: "bpm" },
+          context: { reference: "Encounter/{}".format(encounter_id) },
+        };
+        fhirClient.api
+          .update({
+            type: "Observation",
+            data: data,
+          })
+          .then(function () {
+            console.log("Observation created succesfully");
+          });
+      }
+      async function updatePatientName() {
+        console.log("Updating patient...");
+        patient.name[0].family[0] = "NewName";
+        fhirClient.api
+          .update({
+            type: patient.resourceType,
+            data: JSON.stringify(patient),
+            id: patient.id,
+          })
+          .then(function () {
+            console.log("Patient updated succesfully");
+          });
+      }
       async function getDataFromPatient() {
         //get data from patient
-          fhirClient.api.read({
-            type: 'Patient',
-            id: currentPatient.id,
-          }).done(function (response) {
-            userResult= response.data;
-          console.log(userResult);
-          let html = `
-                      <div class="isolate -space-y-px rounded-md shadow-sm">
-                        <div class="relative border border-gray-300 rounded-md rounded-b-none px-3 py-2 focus-within:z-10 focus-within:ring-1 focus-within:ring-indigo-600 focus-within:border-indigo-600">
-                          <input type="text" name="name" id="name" class="block w-full border-0 bg-transparent p-0 text-blue-900 font-bold placeholder-white-500 focus:ring-0 sm:text-sm" value="${userResult.resourceType}" disabled>
-                        </div>
-                        <div class="relative border border-gray-300 px-3 py-2 focus-within:z-10 focus-within:ring-1 focus-within:ring-indigo-600 focus-within:border-indigo-600">
-                          <label for="name" class="block text-xs font-medium text-gray-900">Name</label>
-                          <input type="text" name="name" id="name" class="block w-full border-0 bg-transparent p-0 text-gray-900 placeholder-white-500 focus:ring-0 sm:text-sm" value="${userResult.name[0].text}" disabled>
-                        </div>
-                        <div class="relative border border-gray-300 px-3 py-2 focus-within:z-10 focus-within:ring-1 focus-within:ring-indigo-600 focus-within:border-indigo-600">
-                          <label for="job-title" class="block text-xs font-medium text-gray-900">Birth Date</label>
-                          <input type="text" name="job-title" id="job-title" class="block w-full bg-transparent border-0 p-0 text-gray-900 placeholder-white-500 focus:ring-0 sm:text-sm"  value="${userResult.birthDate}" disabled>
-                        </div>
-                        <div class="relative border border-gray-300 rounded-md rounded-t-none px-3 py-2 focus-within:z-10 focus-within:ring-1 focus-within:ring-indigo-600 focus-within:border-indigo-600">
-                          <label for="job-title" class="block text-xs font-medium text-gray-900">Gender</label>
-                          <input type="text" name="job-title" id="job-title" class="block w-full bg-transparent border-0 p-0 text-gray-900 placeholder-white-500 focus:ring-0 sm:text-sm"  value="${userResult.gender}" disabled>
-                        </div>
-                      </div>
-        `;
-          $("#info").html(html);
-          patient = userResult;
-          getObservations();
-        });
+        fhirClient.api
+          .read({
+            type: "Patient",
+            id: patient.id,
+          })
+          .done(function (response) {
+            userResult = response.data;
+            console.log(userResult);
+            let html = `
+                            <div class="isolate -space-y-px rounded-md shadow-sm">
+                              <div class="relative border border-gray-300 rounded-md rounded-b-none px-3 py-2 focus-within:z-10 focus-within:ring-1 focus-within:ring-indigo-600 focus-within:border-indigo-600">
+                                <input type="text" name="name" id="name" class="block w-full border-0 bg-transparent p-0 text-blue-900 font-bold placeholder-white-500 focus:ring-0 sm:text-sm" value="${userResult.resourceType}" disabled>
+                              </div>
+                              <div class="relative border border-gray-300 px-3 py-2 focus-within:z-10 focus-within:ring-1 focus-within:ring-indigo-600 focus-within:border-indigo-600">
+                                <label for="name" class="block text-xs font-medium text-gray-900">Name</label>
+                                <input type="text" name="name" id="name" class="block w-full border-0 bg-transparent p-0 text-gray-900 placeholder-white-500 focus:ring-0 sm:text-sm" value="${userResult.name[0].text}" disabled>
+                              </div>
+                              <div class="relative border border-gray-300 px-3 py-2 focus-within:z-10 focus-within:ring-1 focus-within:ring-indigo-600 focus-within:border-indigo-600">
+                                <label for="job-title" class="block text-xs font-medium text-gray-900">Birth Date</label>
+                                <input type="text" name="job-title" id="job-title" class="block w-full bg-transparent border-0 p-0 text-gray-900 placeholder-white-500 focus:ring-0 sm:text-sm"  value="${userResult.birthDate}" disabled>
+                              </div>
+                              <div class="relative border border-gray-300 rounded-md rounded-t-none px-3 py-2 focus-within:z-10 focus-within:ring-1 focus-within:ring-indigo-600 focus-within:border-indigo-600">
+                                <label for="job-title" class="block text-xs font-medium text-gray-900">Gender</label>
+                                <input type="text" name="job-title" id="job-title" class="block w-full bg-transparent border-0 p-0 text-gray-900 placeholder-white-500 focus:ring-0 sm:text-sm"  value="${userResult.gender}" disabled>
+                              </div>
+                            </div>
+              `;
+            $("#info").html(html);
+            patient = userResult;
+            getObservations();
+          });
       }
 
       function anoreraAlgorithm() {
@@ -390,11 +432,11 @@
       function displayObservation(observation) {
         var table = document.getElementById("obs_table");
         table.innerHTML += observation.resource.text.div;
-        table.innerHTML += '<br><br>';
+        table.innerHTML += "<br><br>";
       }
       function getObservations() {
         fhirClient.patient.api
-          .search({ type: "Observation" , count: 5})
+          .search({ type: "Observation", count: 5 })
           .then(function (results, refs) {
             results.data.entry.forEach(function (observation) {
               displayObservation(observation);
