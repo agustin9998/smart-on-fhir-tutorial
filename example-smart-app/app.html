@@ -313,6 +313,7 @@
                   Run Algorithm
                 </button>
 
+                <h1>Observations</h1>
                 <div id="obs_table">
                 </div>
               </div>
@@ -390,10 +391,11 @@
       function displayObservation(observation) {
         var table = document.getElementById("obs_table");
         table.innerHTML += observation.text.div;
+        table.innerHTML += '<br><br>';
       }
       function getObservations() {
         fhirClient.api
-          .fetchAll({ type: "Observation" })
+          .fetch({ type: "Observation" })
           .then(function (results, refs) {
             console.log(results);
             results.forEach(function (observation) {
