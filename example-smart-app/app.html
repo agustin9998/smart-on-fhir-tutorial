@@ -352,10 +352,10 @@
             ],
           },
           status: "final",
-          subject: { reference: "Patient/{}".format(patient_id) },
+          subject: { reference: "Patient/{}".format(patient.id) },
           effectiveDateTime: "2019-01-01T00:00:00+00:00",
           valueQuantity: { value: 80, unit: "bpm" },
-          context: { reference: "Encounter/{}".format(encounter_id) },
+          context: { reference: "Encounter/{}".format(1) },
         };
         fhirClient.api
           .update({
@@ -440,6 +440,7 @@
         fhirClient.patient.api
           .search({ type: "Observation", count: 5 })
           .then(function (results, refs) {
+            console.log(results);
             results.data.entry.forEach(function (observation) {
               displayObservation(observation);
             });
