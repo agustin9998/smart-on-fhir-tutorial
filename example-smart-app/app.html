@@ -487,7 +487,13 @@
       }
       function getObservations() {
         fhirClient.patient.api
-          .search({ type: "Observation", count: 5 })
+          .search({
+            type: "Observation",
+            count: 5,
+            query: {
+              code: { $exact: "http://loinc.org" },
+            },
+          })
           .then(function (results, refs) {
             console.log(results);
             results.data.entry.forEach(function (observation) {
