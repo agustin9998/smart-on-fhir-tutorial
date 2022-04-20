@@ -352,10 +352,9 @@
             ],
           },
           status: "final",
-          subject: { reference: "Patient/{}".format(patient.id) },
+          subject: { reference: `Patient/${patient.id}` },
           effectiveDateTime: "2019-01-01T00:00:00+00:00",
           valueQuantity: { value: 80, unit: "bpm" },
-          context: { reference: "Encounter/{}".format(1) },
         };
         fhirClient.api
           .update({
