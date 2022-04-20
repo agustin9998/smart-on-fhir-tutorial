@@ -403,98 +403,111 @@
         console.log("Creating encounter...");
         data = {
           resourceType: "Encounter",
-          identifier: [
-            {
-              use: "official",
-              system: "http://www.amc.nl/zorgportal/identifiers/visits",
-              value: "v1451",
-            },
-          ],
-          status: "in-progress",
-          statusHistory: [
-            {
-              status: "in-progress",
-              period: {
-                start: "2013-03-08",
-              },
-            },
-          ],
-          class: {
-            system: "http://terminology.hl7.org/CodeSystem/v3-ActCode",
-            code: "IMP",
-            display: "inpatient encounter",
+          class: "Encounter1",
+          period: {
+            start: "2022-01-31T23:59:59+06:00",
+            end: "2022-01-31T23:59:59+06:30",
           },
-          type: [
-            {
-              coding: [
-                {
-                  system: "http://snomed.info/sct",
-                  code: "183807002",
-                  display: "Inpatient stay for nine days",
+          status: "planned",
+          patient: {
+            reference: "Patient/4",
+          },
+        };
+
+        /*{
+                resourceType: "Encounter",
+                identifier: [
+                  {
+                    use: "official",
+                    system: "http://www.amc.nl/zorgportal/identifiers/visits",
+                    value: "v1451",
+                  },
+                ],
+                status: "in-progress",
+                statusHistory: [
+                  {
+                    status: "in-progress",
+                    period: {
+                      start: "2013-03-08",
+                    },
+                  },
+                ],
+                class: {
+                  system: "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+                  code: "IMP",
+                  display: "inpatient encounter",
                 },
-              ],
-            },
-          ],
-          priority: {
-            coding: [
-              {
-                system: "http://snomed.info/sct",
-                code: "394849002",
-                display: "High priority",
-              },
-            ],
-          },
-          subject: {
-            reference: `Patient/${patient.id}`,
-          },
-          participant: [
-            {
-              type: [
-                {
+                type: [
+                  {
+                    coding: [
+                      {
+                        system: "http://snomed.info/sct",
+                        code: "183807002",
+                        display: "Inpatient stay for nine days",
+                      },
+                    ],
+                  },
+                ],
+                priority: {
                   coding: [
                     {
-                      system:
-                        "http://terminology.hl7.org/CodeSystem/v3-ParticipationType",
-                      code: "PART",
+                      system: "http://snomed.info/sct",
+                      code: "394849002",
+                      display: "High priority",
                     },
                   ],
                 },
-              ],
-              actor: {
-                reference: `Practitioner/12742069`,
-              },
-            },
-          ],
-          actualPeriod: {
-            start: "2013-03-11",
-            end: "2013-03-20",
-          },
-          reason: [
-            {
-              concept: {
-                text: "The patient seems to suffer from bilateral pneumonia and renal insufficiency, most likely due to chemotherapy.",
-              },
-            },
-          ],
-          diagnosis: [
-            {
-              condition: {
-                reference: "Condition/stroke",
-              },
-              use: {
-                coding: [
+                subject: {
+                  reference: `Patient/${patient.id}`,
+                },
+                participant: [
                   {
-                    system:
-                      "http://terminology.hl7.org/CodeSystem/diagnosis-role",
-                    code: "AD",
-                    display: "Admission diagnosis",
+                    type: [
+                      {
+                        coding: [
+                          {
+                            system:
+                              "http://terminology.hl7.org/CodeSystem/v3-ParticipationType",
+                            code: "PART",
+                          },
+                        ],
+                      },
+                    ],
+                    actor: {
+                      reference: `Practitioner/12742069`,
+                    },
                   },
                 ],
-              },
-              rank: 1,
-            },
-          ],
-        };
+                actualPeriod: {
+                  start: "2013-03-11",
+                  end: "2013-03-20",
+                },
+                reason: [
+                  {
+                    concept: {
+                      text: "The patient seems to suffer from bilateral pneumonia and renal insufficiency, most likely due to chemotherapy.",
+                    },
+                  },
+                ],
+                diagnosis: [
+                  {
+                    condition: {
+                      reference: "Condition/stroke",
+                    },
+                    use: {
+                      coding: [
+                        {
+                          system:
+                            "http://terminology.hl7.org/CodeSystem/diagnosis-role",
+                          code: "AD",
+                          display: "Admission diagnosis",
+                        },
+                      ],
+                    },
+                    rank: 1,
+                  },
+                ],
+              };*/
         fhirClient.api
           .create({
             type: "Encounter",
@@ -528,24 +541,24 @@
             userResult = response.data;
             console.log(userResult);
             let html = `
-                            <div class="isolate -space-y-px rounded-md shadow-sm">
-                              <div class="relative border border-gray-300 rounded-md rounded-b-none px-3 py-2 focus-within:z-10 focus-within:ring-1 focus-within:ring-indigo-600 focus-within:border-indigo-600">
-                                <input type="text" name="name" id="name" class="block w-full border-0 bg-transparent p-0 text-blue-900 font-bold placeholder-white-500 focus:ring-0 sm:text-sm" value="${userResult.resourceType}" disabled>
-                              </div>
-                              <div class="relative border border-gray-300 px-3 py-2 focus-within:z-10 focus-within:ring-1 focus-within:ring-indigo-600 focus-within:border-indigo-600">
-                                <label for="name" class="block text-xs font-medium text-gray-900">Name</label>
-                                <input type="text" name="name" id="name" class="block w-full border-0 bg-transparent p-0 text-gray-900 placeholder-white-500 focus:ring-0 sm:text-sm" value="${userResult.name[0].text}" disabled>
-                              </div>
-                              <div class="relative border border-gray-300 px-3 py-2 focus-within:z-10 focus-within:ring-1 focus-within:ring-indigo-600 focus-within:border-indigo-600">
-                                <label for="job-title" class="block text-xs font-medium text-gray-900">Birth Date</label>
-                                <input type="text" name="job-title" id="job-title" class="block w-full bg-transparent border-0 p-0 text-gray-900 placeholder-white-500 focus:ring-0 sm:text-sm"  value="${userResult.birthDate}" disabled>
-                              </div>
-                              <div class="relative border border-gray-300 rounded-md rounded-t-none px-3 py-2 focus-within:z-10 focus-within:ring-1 focus-within:ring-indigo-600 focus-within:border-indigo-600">
-                                <label for="job-title" class="block text-xs font-medium text-gray-900">Gender</label>
-                                <input type="text" name="job-title" id="job-title" class="block w-full bg-transparent border-0 p-0 text-gray-900 placeholder-white-500 focus:ring-0 sm:text-sm"  value="${userResult.gender}" disabled>
-                              </div>
-                            </div>
-              `;
+                                  <div class="isolate -space-y-px rounded-md shadow-sm">
+                                    <div class="relative border border-gray-300 rounded-md rounded-b-none px-3 py-2 focus-within:z-10 focus-within:ring-1 focus-within:ring-indigo-600 focus-within:border-indigo-600">
+                                      <input type="text" name="name" id="name" class="block w-full border-0 bg-transparent p-0 text-blue-900 font-bold placeholder-white-500 focus:ring-0 sm:text-sm" value="${userResult.resourceType}" disabled>
+                                    </div>
+                                    <div class="relative border border-gray-300 px-3 py-2 focus-within:z-10 focus-within:ring-1 focus-within:ring-indigo-600 focus-within:border-indigo-600">
+                                      <label for="name" class="block text-xs font-medium text-gray-900">Name</label>
+                                      <input type="text" name="name" id="name" class="block w-full border-0 bg-transparent p-0 text-gray-900 placeholder-white-500 focus:ring-0 sm:text-sm" value="${userResult.name[0].text}" disabled>
+                                    </div>
+                                    <div class="relative border border-gray-300 px-3 py-2 focus-within:z-10 focus-within:ring-1 focus-within:ring-indigo-600 focus-within:border-indigo-600">
+                                      <label for="job-title" class="block text-xs font-medium text-gray-900">Birth Date</label>
+                                      <input type="text" name="job-title" id="job-title" class="block w-full bg-transparent border-0 p-0 text-gray-900 placeholder-white-500 focus:ring-0 sm:text-sm"  value="${userResult.birthDate}" disabled>
+                                    </div>
+                                    <div class="relative border border-gray-300 rounded-md rounded-t-none px-3 py-2 focus-within:z-10 focus-within:ring-1 focus-within:ring-indigo-600 focus-within:border-indigo-600">
+                                      <label for="job-title" class="block text-xs font-medium text-gray-900">Gender</label>
+                                      <input type="text" name="job-title" id="job-title" class="block w-full bg-transparent border-0 p-0 text-gray-900 placeholder-white-500 focus:ring-0 sm:text-sm"  value="${userResult.gender}" disabled>
+                                    </div>
+                                  </div>
+                    `;
             $("#info").html(html);
             patient = userResult;
             getObservations();
