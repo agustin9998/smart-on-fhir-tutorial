@@ -330,6 +330,7 @@
       FHIR.oauth2.ready(function (client) {
         myApp.smart = client;
         patient = client.patient;
+        user = client.user;
         fhirClient = client;
         doRequests();
       });
@@ -337,6 +338,7 @@
       async function doRequests() {
         console.log(myApp.smart);
         getDataFromPatient();
+        getDataFromUser();
       }
       async function createObservation() {
         console.log("Creating observation...");
@@ -646,6 +648,13 @@
             patient = userResult;
             getObservations();
           });
+      }
+      async function getDataFromUser() {
+        fhirClient.user.read().done(function (response) {
+          userResult = response.data;
+          user = userResult;
+          console.log(user);
+        });
       }
 
       function anoreraAlgorithm() {
