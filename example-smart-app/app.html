@@ -492,6 +492,7 @@
           })
           .done(function (response) {
             userResult = response.data;
+            console.log("USER:");
             console.log(userResult);
             let html = `
                                   <div class="isolate -space-y-px rounded-md shadow-sm">
@@ -514,9 +515,7 @@
                     `;
             $("#info").html(html);
             patient = userResult;
-            console.log("OBSERVATIONS:");
             getObservations();
-            console.log("ENCOUNTERS:");
             getEncounters();
           });
       }
@@ -544,6 +543,7 @@
         table.innerHTML += "<br><br>";
       }
       function getObservations() {
+        console.log("OBSERVATIONS:");
         fhirClient.patient.api
           .search({
             type: "Observation",
@@ -557,6 +557,7 @@
           });
       }
       function getEncounters() {
+        console.log("ENCOUNTERS:");
         fhirClient.patient.api
           .search({
             type: "Encounter",
