@@ -543,13 +543,13 @@
         table.innerHTML += "<br><br>";
       }
       function getObservations() {
-        console.log("OBSERVATIONS:");
         fhirClient.patient.api
           .search({
             type: "Observation",
             count: 5,
           })
           .then(function (results, refs) {
+            console.log("OBSERVATIONS:");
             console.log(results);
             results.data.entry.forEach(function (observation) {
               displayObservation(observation);
@@ -557,13 +557,13 @@
           });
       }
       function getEncounters() {
-        console.log("ENCOUNTERS:");
         fhirClient.patient.api
           .search({
             type: "Encounter",
             count: 5,
           })
           .then(function (results, refs) {
+            console.log("ENCOUNTERS:");
             console.log(results);
           });
       }
