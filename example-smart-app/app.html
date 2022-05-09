@@ -323,6 +323,7 @@
     </div>
 
     <script>
+      console.log(localStorage.getItem("organization"));
       let patient = {};
       let currentUserFhirUrl;
       let fhirClient = {};
@@ -424,7 +425,7 @@
             },
           ],
           serviceProvider: {
-            reference: "Organization/675844", //CERNER 675844   LOGICA  2.16.840.1.113883.19.5
+            reference: `Organization/${localStorage.getItem("organization")}`, //CERNER 675844   LOGICA  2.16.840.1.113883.19.5
           },
           hospitalization: {
             admitSource: {
