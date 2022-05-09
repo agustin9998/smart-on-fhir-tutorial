@@ -528,8 +528,10 @@
 
       function displayObservation(observation) {
         var table = document.getElementById("obs_table");
-        table.innerHTML += createDivObservation(observation.resource);
-        table.innerHTML += "<br><br>";
+        if (observation.resource.text?.div) {
+          table.innerHTML += observation.resource.text?.div;
+          table.innerHTML += "<br><br>";
+        }
       }
       function getObservations() {
         fhirClient.patient.api
@@ -555,10 +557,6 @@
             console.log("ENCOUNTERS:");
             console.log(results);
           });
-      }
-      function createDivObservation(observation) {
-        const observationDiv = `<div xmlns="http://www.w3.org/1999/xhtml"><p><b>Observation</b></p><p><b>Status</b>: ${observation.status}</p><p><b>Categories</b>:${observation.category[0].text}</p><p><b>Code</b>: ${observation.code.text}</p><p><b>Issued Date</b>: ${observation.issued}</p></div>`;
-        return observationDiv;
       }
     </script>
   </body>
