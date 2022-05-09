@@ -388,10 +388,12 @@
             code: "[lb_av]",
           },
         };
-        fhirClient.api.create({
-          type: "Observation",
-          data: data,
-        });
+        fhirClient.api
+          .create({
+            type: "Observation",
+            data: data,
+          })
+          .then(console.log("Observation created succesfully"));
       }
       async function createEncounter() {
         console.log("Creating encounter...");
@@ -478,9 +480,7 @@
             type: "Encounter",
             data: data,
           })
-          .then(function () {
-            console.log("Encounter created succesfully");
-          });
+          .then(console.log("Encounter created succesfully"));
       }
 
       async function getDataFromPatient() {
