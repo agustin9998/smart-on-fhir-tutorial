@@ -423,6 +423,9 @@
               text: "Neck Pain",
             },
           ],
+          serviceProvider: {
+            reference: "Organization/2.16.840.1.113883.19.5",
+          },
           hospitalization: {
             admitSource: {
               coding: [
@@ -511,6 +514,7 @@
             $("#info").html(html);
             patient = userResult;
             getObservations();
+            getEncounters();
           });
       }
 
@@ -547,6 +551,16 @@
             results.data.entry.forEach(function (observation) {
               displayObservation(observation);
             });
+          });
+      }
+      function getEncounters() {
+        fhirClient.patient.api
+          .search({
+            type: "Encounter",
+            count: 5,
+          })
+          .then(function (results, refs) {
+            console.log(results);
           });
       }
     </script>
